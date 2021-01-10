@@ -46,6 +46,7 @@
 		"/dist/"
 	],
 	"dependencies": {
+		"hiding-header": "^0.3.2",
 		"lit-element": "^2.4.0"
 	}
 }
