@@ -1,8 +1,8 @@
 import { hidingHeader } from 'hiding-header'
-import { css, html, LitElement } from 'lit-element'
 
-class HidingHeader extends LitElement {
-	static styles = css`
+const template = document.createElement('template')
+template.innerHTML = `
+	<style>
 		:host {
 			display: block;
 			position: relative;
@@ -25,34 +25,30 @@ class HidingHeader extends LitElement {
 			transition: transform 0.2s;
 			transform: translateY(var(--hidingHeader-animation-offset));
 		}
-	`
+	</style>
+	<div class="hidingHeader-in">
+		<slot></slot>
+	</div>
+`
 
+export class HidingHeaderWebcomponent extends HTMLElement {
 	connectedCallback() {
-		super.connectedCallback()
+		this.attachShadow({ mode: 'open' })
+		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
 		hidingHeader(this)
 	}
 
 	disconnectedCallback() {
-		super.disconnectedCallback()
-
 		// @TODO: destroy instance of hiding-header library
-	}
-
-	render() {
-		return html`
-			<div class="hidingHeader-in">
-				<slot></slot>
-			</div>
-		`
 	}
 }
 if (!customElements.get('hiding-header')) {
-	customElements.define('hiding-header', HidingHeader)
+	customElements.define('hiding-header', HidingHeaderWebcomponent)
 }
 
 declare global {
 	interface HTMLElementTagNameMap {
-		'hiding-header': HidingHeader
+		'hiding-header': HidingHeaderWebcomponent
 	}
 }

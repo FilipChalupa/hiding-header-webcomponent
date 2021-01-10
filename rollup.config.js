@@ -18,6 +18,5 @@ export default {
 			sourcemap: true,
 		},
 	],
-	external: ['lit-element', 'hiding-header'],
 	plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
 }
