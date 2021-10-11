@@ -25,6 +25,13 @@ template.innerHTML = `
 			transition: transform 0.2s;
 			transform: translateY(var(--hidingHeader-animation-offset));
 		}
+
+		@media (prefers-reduced-motion) {
+			.hidingHeader-in {
+				transition-duration: 1ms;
+				transition-timing-function: step-end;
+			}
+		}
 	</style>
 	<div class="hidingHeader-in">
 		<slot></slot>
@@ -36,7 +43,8 @@ export class HidingHeaderWebcomponent extends HTMLElement {
 		this.attachShadow({ mode: 'open' })
 		this.shadowRoot.appendChild(template.content.cloneNode(true))
 
-		hidingHeader(this)
+		// @TODO: load options from html attributes
+		hidingHeader(this, { snap: false })
 	}
 
 	disconnectedCallback() {
